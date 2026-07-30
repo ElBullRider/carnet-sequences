@@ -79,8 +79,11 @@
 
   .step-row{border-top:1px solid var(--line);padding:16px 0;}
   .step-row:first-child{border-top:none;padding-top:0;}
-  .step-row-head{font-family:'Zilla Slab',serif;font-weight:700;font-size:17px;color:var(--forest-dark);margin-bottom:10px;}
+  .step-row-head{font-family:'Zilla Slab',serif;font-weight:700;font-size:17px;color:var(--forest-dark);margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .step-row.muted .step-row-head{color:var(--ink-soft);}
+  .collapse-toggle{background:var(--forest);color:#fff;border:none;width:26px;height:26px;border-radius:6px;font-size:13px;flex-shrink:0;cursor:pointer;}
+  .step-row.muted .collapse-toggle{background:var(--ink-soft);}
+  .modalite-select{margin-left:auto;max-width:170px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;padding:5px 8px;border-radius:16px;border:1.5px solid var(--sky);color:var(--sky);background:var(--sky-soft);}
   .step-row.muted textarea{background:#F5F4EC;color:var(--ink-soft);}
   .tag{font-family:'Inter',sans-serif;font-weight:400;font-size:11px;background:var(--sky-soft);color:var(--sky);padding:2px 8px;border-radius:10px;margin-left:8px;}
   .help-trigger{position:relative;cursor:help;}
@@ -92,6 +95,19 @@
   .help-pop li{margin-bottom:3px;font-size:12.5px;font-weight:400;color:var(--ink);font-family:'Inter',sans-serif;}
   .help-trigger:hover .help-pop, .help-trigger.show .help-pop{display:block;}
   .materiel-line{background:#F5F1E4;border-radius:8px;padding:10px 14px;margin-top:6px;}
+  .floating-endsession{background:var(--paper-card);border:1.5px dashed var(--ochre);border-radius:10px;padding:10px 8px;box-shadow:var(--shadow);margin-bottom:16px;}
+  .floating-endsession .fe-icon{width:26px;height:26px;border-radius:50%;background:var(--ochre-soft);color:var(--ochre);display:flex;align-items:center;justify-content:center;font-size:13px;margin:0 auto 5px;}
+  .floating-endsession .fe-eyebrow{display:block;text-align:center;font-family:'Special Elite',monospace;font-size:8.5px;letter-spacing:0.5px;color:var(--ochre);text-transform:uppercase;margin-bottom:6px;}
+  .floating-endsession .fe-check{display:flex;align-items:flex-start;gap:5px;font-family:'Inter',sans-serif;font-size:10.5px;color:var(--ink);line-height:1.25;cursor:pointer;}
+  .floating-endsession .fe-check input{width:auto;margin-top:1px;flex-shrink:0;}
+  .floating-endsession .fe-resume{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);}
+  .floating-endsession .fe-resume label{display:block;font-family:'Zilla Slab',serif;font-weight:700;font-size:10.5px;color:var(--forest-dark);margin-bottom:4px;}
+  .floating-endsession .fe-resume select{width:100%;font-size:10.5px;padding:5px 4px;}
+  .floating-endsession .fe-badge{display:block;width:100%;margin-top:8px;background:var(--sky-soft);color:var(--sky);border:none;border-radius:7px;padding:7px 6px;font-size:10px;font-weight:700;text-align:center;line-height:1.25;cursor:pointer;font-family:'Inter',sans-serif;}
+  .floating-endsession .fe-badge:hover{background:var(--sky);color:#fff;}
+  @media(min-width:900px){
+    .floating-endsession{position:fixed;left:8px;top:50%;transform:translateY(-50%);width:112px;z-index:50;margin-bottom:0;}
+  }
 
   .btn-row{display:flex;gap:12px;justify-content:space-between;margin-top:24px;flex-wrap:wrap;}
   .btn{padding:11px 22px;border-radius:24px;border:none;font-weight:600;font-size:14.5px;text-decoration:none;display:inline-block;}
@@ -135,15 +151,15 @@ const THEMES = {
     {t:"Le corps humain", cat:"Corps & santé", obj:"Situer et nommer les différentes parties du corps humain, sur soi ou sur une représentation.", ex:"Dessiner un être humain complet et articulé ; repérer et nommer ses articulations (coude, genou) lors de jeux ou parcours de motricité."},
     {t:"L'hygiène et la santé", cat:"Corps & santé", obj:"Connaître et mettre en œuvre quelques règles d'hygiène et de vie saine pour soi, pour les autres et pour l'environnement.", ex:"Pratiquer et analyser le rituel du lavage des mains, du mouchage de nez ou du brossage des dents."},
     {t:"La protection du vivant", cat:"Vivant", obj:"Commencer à adopter une attitude responsable en matière de respect des lieux et de protection du vivant.", ex:"Sensibiliser au gaspillage, mettre en place le tri et la réduction des déchets ; entretenir les espaces verts de l'école."},
-    {t:"Les matériaux et les outils", cat:"Objets & techniques", obj:"Choisir, utiliser et savoir désigner des outils et des matériaux adaptés à une situation, à des actions techniques spécifiques (plier, couper, coller, assembler, actionner).", ex:"Réaliser une recette de cuisine (pâte à tarte, compote) ; s'entraîner avec ciseaux, gabarits ou perforatrices."},
+    {t:"Les matériaux et les outils", cat:"Objets & techniques", obj:"Choisir, utiliser et savoir désigner des outils et des matériaux adaptés à une situation, à des actions techniques spécifiques (plier, couper, coller, assembler, actionner…).", ex:"Réaliser une recette de cuisine (pâte à tarte, compote) ; s'entraîner avec ciseaux, gabarits ou perforatrices."},
     {t:"Les caractéristiques sensorielles", cat:"Matière", obj:"Distinguer des réalités différentes selon leurs caractéristiques sensorielles.", ex:"Trier et comparer des objets ou des matériaux en utilisant ses 5 sens (goût, odeur, texture)."},
-    {t:"Les constructions et maquettes", cat:"Objets & techniques", obj:"Réaliser des constructions et construire des maquettes simples en fonction de plans ou d'instructions de montage.", ex:"Fabriquer des « objets de l'eau » (bateau, moulin) ; monter un objet en kit à l'aide d'une notice illustrée."},
+    {t:"Les constructions et maquettes", cat:"Objets & techniques", obj:"Réaliser des constructions – construire des maquettes simples en fonction de plans ou d'instructions de montage.", ex:"Fabriquer des « objets de l'eau » (bateau, moulin) ; monter un objet en kit à l'aide d'une notice illustrée."},
     {t:"Les dangers domestiques", cat:"Corps & santé", obj:"Prendre en compte les risques de l'environnement familier proche (objets et comportements dangereux, produits toxiques).", ex:"Identifier, justifier et alerter sur les objets dangereux, les risques de coupures, brûlures ou d'électrocution dans la classe."},
-    {t:"Les outils numériques", cat:"Numérique", obj:"Utiliser des objets numériques tels que l'appareil photo, la tablette ou l'ordinateur.", ex:"Photographier une sortie scolaire ou les étapes d'une fabrication ; utiliser un clavier pour taper son prénom ou une courte phrase."}
+    {t:"Les outils numériques", cat:"Numérique", obj:"Utiliser des objets numériques : appareil photo, tablette, ordinateur.", ex:"Photographier une sortie scolaire ou les étapes d'une fabrication ; utiliser un clavier pour taper son prénom ou une courte phrase."}
   ],
   C2: [
     {t:"Les caractéristiques du vivant", cat:"Vivant", obj:"Connaître des caractéristiques du monde vivant, ses interactions, sa diversité.", ex:"Créer et observer de petits écosystèmes dans la mare ou le jardin de l'école ; construire le schéma simple d'une chaîne alimentaire locale."},
-    {t:"La santé et le corps humain", cat:"Corps & santé", obj:"Reconnaître des comportements favorables à sa santé (hygiène, équilibre alimentaire, rythme de vie) et observer son corps pour en comprendre la croissance et les mouvements.", ex:"Utiliser toise et balance pour créer des graphiques de croissance ; repérer les 4 familles d'aliments ; modéliser la flexion/extension du bras avec des pantins articulés."},
+    {t:"La santé et le corps humain", cat:"Corps & santé", obj:"Reconnaître des comportements favorables à sa santé.", ex:"Utiliser toise et balance pour créer des graphiques de croissance ; repérer les 4 familles d'aliments ; modéliser la flexion/extension du bras avec des pantins articulés."},
     {t:"Les états de la matière", cat:"Matière", obj:"Identifier les trois états de la matière et observer des changements d'états.", ex:"Le « défi glaçon » pour observer fusion et solidification ; seringues, pompes à vélo et ballons pour prouver l'existence de l'air."},
     {t:"L'eau dans la vie quotidienne", cat:"Matière", obj:"Identifier un changement d'état de l'eau dans un phénomène de la vie quotidienne.", ex:"Mettre en lien la météo locale avec les états de l'eau (pluie, nuages, glace)."},
     {t:"La fonction des objets", cat:"Objets & techniques", obj:"Comprendre la fonction et le fonctionnement d'objets fabriqués.", ex:"Démonter et analyser les composants d'une lampe de poche, ou comparer différents objets servant à presser un citron."},
@@ -151,9 +167,9 @@ const THEMES = {
     {t:"L'environnement numérique", cat:"Numérique", obj:"Commencer à s'approprier un environnement numérique.", ex:"Rédiger le compte-rendu ou la une d'un journal scolaire en utilisant un traitement de texte, la mise en page et le correcteur orthographique."}
   ],
   C3: [
-    {t:"Classification et évolution", cat:"Vivant", obj:"Classer les organismes et exploiter les liens de parenté pour comprendre et expliquer l'évolution des organismes.", ex:"Réaliser une classification d'animaux en « groupes emboîtés » ; construire un arbre de parenté ; observer des cellules au microscope."},
-    {t:"Alimentation humaine", cat:"Corps & santé", obj:"Expliquer les besoins variables en aliments de l'être humain, ainsi que l'origine et les techniques mises en œuvre pour transformer et conserver les aliments.", ex:"Fabriquer du yaourt ou du pain pour observer l'action des micro-organismes ; analyser étiquettes et dates de péremption."},
-    {t:"Prévention et santé", cat:"Corps & santé", obj:"Apprendre à devenir responsable pour sa santé en prévenant les comportements à risques et les addictions.", ex:"Mener des recherches documentaires sur la toxicité du tabac, de l'alcool, du cannabis pour débattre et faire des choix responsables."},
+    {t:"Classification et évolution", cat:"Vivant", obj:"Classer les organismes, exploiter les liens de parenté pour comprendre et expliquer l'évolution des organismes.", ex:"Réaliser une classification d'animaux en « groupes emboîtés » ; construire un arbre de parenté ; observer des cellules au microscope."},
+    {t:"Alimentation humaine", cat:"Corps & santé", obj:"Expliquer les besoins variables en aliments de l'être humain ; l'origine et les techniques mises en œuvre pour transformer et conserver les aliments.", ex:"Fabriquer du yaourt ou du pain pour observer l'action des micro-organismes ; analyser étiquettes et dates de péremption."},
+    {t:"Prévention et santé", cat:"Corps & santé", obj:"Apprendre à devenir responsable pour sa santé : prévenir les comportements à risques (addictions…).", ex:"Mener des recherches documentaires sur la toxicité du tabac, de l'alcool, du cannabis pour débattre et faire des choix responsables."},
     {t:"Développement et reproduction", cat:"Vivant", obj:"Décrire comment les êtres vivants se développent et deviennent aptes à se reproduire.", ex:"Suivre le cycle de développement du moustique pour lutter contre la dengue ; nommer et situer les changements liés à la puberté."},
     {t:"La matière organique", cat:"Matière", obj:"Expliquer l'origine de la matière organique des êtres vivants et son devenir.", ex:"Expériences avec des végétaux plantés avec/sans eau ou avec/sans lumière ; observer le rôle des décomposeurs via le compostage."},
     {t:"L'évolution des objets", cat:"Objets & techniques", obj:"Identifier les principales évolutions du besoin et des objets.", ex:"Construire une frise chronologique des évolutions techniques et des matériaux d'un objet (vélo, lampe...) au fil du temps."},
@@ -180,6 +196,109 @@ const STEPS = [
   ["structuration","6. Structuration"],
   ["reinvestissement","7. Réinvestissement"]
 ];
+const MODALITES = ["Individuel", "Binôme", "Petit groupe", "Collectif"];
+const DOMAINE_ENSEIGNEMENT_PAR_CYCLE = { C1: "Explorer le monde", C2: "Questionner le monde", C3: "Sciences et technologie" };
+
+/* Repères de progressivité officiels — Sciences et technologie, Nouvelle-Calédonie (C1 à C3) */
+const PROGRAMMES_DATA = {
+  C1: [
+    {
+      nom: "Explorer le monde du vivant, de la matière et des objets",
+      domainesSocle: ["D1","D2","D4"],
+      competences: "Non détaillées séparément dans les repères du cycle 1 (structure propre à la maternelle) — chaque attendu intègre déjà la compétence visée.",
+      attendus: [
+        "Reconnaître les principales étapes du développement d'un animal.",
+        "Reconnaître les principales étapes du développement d'un végétal, dans une situation d'observation du réel ou sur une image.",
+        "Connaître les besoins essentiels de quelques animaux.",
+        "Connaître les besoins essentiels de quelques végétaux.",
+        "Situer et nommer les différentes parties du corps humain, sur soi ou sur une représentation.",
+        "Connaître et mettre en œuvre quelques règles d'hygiène et de vie saine pour soi, pour les autres et pour l'environnement.",
+        "Commencer à adopter une attitude responsable en matière de respect des lieux et de protection du vivant.",
+        "Choisir, utiliser et savoir désigner des outils et des matériaux adaptés à une situation, à des actions techniques spécifiques (plier, couper, coller, assembler, actionner…).",
+        "Distinguer des réalités différentes selon leurs caractéristiques sensorielles.",
+        "Réaliser des constructions – construire des maquettes simples en fonction de plans ou d'instructions de montage.",
+        "Prendre en compte les risques de l'environnement familier proche (objets et comportements dangereux, produits toxiques).",
+        "Utiliser des objets numériques : appareil photo, tablette, ordinateur.",
+      ],
+    },
+  ],
+  C2: [
+    {
+      nom: "Questionner le monde du vivant (Comment reconnaître le monde vivant ?)",
+      domainesSocle: ["D1","D2","D3","D4"],
+      competences: "Pratiquer des démarches scientifiques : pratiquer, avec l'aide des enseignants, quelques moments d'une démarche d'investigation (questionnement, observation, expérience, description, raisonnement, conclusion). S'approprier des outils et des méthodes : choisir ou utiliser le matériel adapté ; manipuler avec soin. Pratiquer des langages : communiquer à l'oral et à l'écrit avec précision ; lire des textes documentaires ; restituer des observations. Adopter un comportement éthique et responsable : développer un comportement responsable vis-à-vis de l'environnement et de la santé ; mettre en pratique des éco-gestes.",
+      attendus: [
+        "Connaître des caractéristiques du monde vivant, ses interactions, sa diversité.",
+        "Reconnaître des comportements favorables à sa santé.",
+      ],
+    },
+    {
+      nom: "Questionner le monde de la matière (Qu'est-ce que la matière ?)",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "Pratiquer des démarches scientifiques : pratiquer, avec l'aide des enseignants, quelques moments d'une démarche d'investigation. S'approprier des outils et des méthodes : choisir ou utiliser le matériel adapté ; manipuler avec soin. Pratiquer des langages : communiquer à l'oral et à l'écrit avec précision ; lire des textes documentaires ; restituer des observations.",
+      attendus: [
+        "Identifier les trois états de la matière et observer des changements d'états.",
+        "Identifier un changement d'état de l'eau dans un phénomène de la vie quotidienne.",
+      ],
+    },
+    {
+      nom: "Questionner le monde des objets techniques",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "S'approprier des outils et des méthodes : choisir ou utiliser le matériel adapté ; manipuler avec soin. Pratiquer des langages : communiquer à l'oral et à l'écrit avec précision ; lire des textes documentaires ; restituer des observations. Pratiquer des démarches scientifiques : pratiquer, avec l'aide des enseignants, quelques moments d'une démarche d'investigation. Imaginer, réaliser : observer des objets simples et des situations de la vie quotidienne ; imaginer et réaliser des objets simples et de petits montages.",
+      attendus: [
+        "Comprendre la fonction et le fonctionnement d'objets fabriqués.",
+        "Réaliser quelques objets et circuits électriques simples, en respectant des règles élémentaires de sécurité.",
+        "Commencer à s'approprier un environnement numérique.",
+      ],
+    },
+  ],
+  C3: [
+    {
+      nom: "Le vivant, sa diversité et les fonctions qui le caractérisent",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "Pratiquer des démarches scientifiques et technologiques (D4) : formuler une question ou une problématique simple ; proposer une ou des hypothèses ; proposer des expériences pour tester une hypothèse ; interpréter un résultat ; formaliser sa recherche à l'écrit ou à l'oral. Concevoir, créer, réaliser (D4/D5). S'approprier des outils et des méthodes (D2) : choisir le matériel adapté, mesurer, garder une trace écrite, mener des recherches documentaires. Pratiquer des langages (D1) : rendre compte avec un vocabulaire précis, exploiter des documents, utiliser différents modes de représentation.",
+      attendus: [
+        "Classer les organismes, exploiter les liens de parenté pour comprendre et expliquer l'évolution des organismes.",
+        "Expliquer les besoins variables en aliments de l'être humain ; l'origine et les techniques mises en œuvre pour transformer et conserver les aliments.",
+        "Apprendre à devenir responsable pour sa santé : prévenir les comportements à risques (addictions…).",
+        "Décrire comment les êtres vivants se développent et deviennent aptes à se reproduire.",
+        "Expliquer l'origine de la matière organique des êtres vivants et son devenir.",
+      ],
+    },
+    {
+      nom: "Matière, mouvement, énergie, information",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "Pratiquer des démarches scientifiques et technologiques (D4) : formuler une question ou une problématique simple ; proposer une ou des hypothèses ; proposer des expériences pour tester une hypothèse ; interpréter un résultat ; formaliser sa recherche à l'écrit ou à l'oral. Concevoir, créer, réaliser (D4/D5). S'approprier des outils et des méthodes (D2) : choisir le matériel adapté, mesurer, garder une trace écrite, mener des recherches documentaires. Pratiquer des langages (D1) : rendre compte avec un vocabulaire précis, exploiter des documents, utiliser différents modes de représentation.",
+      attendus: [
+        "Décrire les états et la constitution de la matière à l'échelle macroscopique.",
+        "Observer et décrire différents types de mouvements.",
+        "Identifier différentes ressources en énergie et connaître quelques conversions d'énergie.",
+        "Identifier un signal et une information.",
+      ],
+    },
+    {
+      nom: "Matériaux et objets techniques",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "Pratiquer des démarches scientifiques et technologiques (D4) : formuler une question ou une problématique simple ; proposer une ou des hypothèses ; proposer des expériences pour tester une hypothèse ; interpréter un résultat ; formaliser sa recherche à l'écrit ou à l'oral. Concevoir, créer, réaliser (D4/D5). S'approprier des outils et des méthodes (D2) : choisir le matériel adapté, mesurer, garder une trace écrite, mener des recherches documentaires. Pratiquer des langages (D1) : rendre compte avec un vocabulaire précis, exploiter des documents, utiliser différents modes de représentation.",
+      attendus: [
+        "Identifier les principales évolutions du besoin et des objets.",
+        "Décrire le fonctionnement d'objets techniques, leurs fonctions et leurs constitutions.",
+        "Identifier les principales familles de matériaux.",
+        "Concevoir et produire tout ou partie d'un objet technique en équipe pour traduire une solution technologique répondant à un besoin.",
+        "Repérer et comprendre la communication et la gestion de l'information.",
+      ],
+    },
+    {
+      nom: "La planète Terre. Les êtres vivants dans leur environnement",
+      domainesSocle: ["D1","D2","D4","D5"],
+      competences: "Pratiquer des démarches scientifiques et technologiques (D4) : formuler une question ou une problématique simple ; proposer une ou des hypothèses ; proposer des expériences pour tester une hypothèse ; interpréter un résultat ; formaliser sa recherche à l'écrit ou à l'oral. Concevoir, créer, réaliser (D4/D5). S'approprier des outils et des méthodes (D2) : choisir le matériel adapté, mesurer, garder une trace écrite, mener des recherches documentaires. Pratiquer des langages (D1) : rendre compte avec un vocabulaire précis, exploiter des documents, utiliser différents modes de représentation.",
+      attendus: [
+        "Situer la Terre dans le système solaire et caractériser les conditions de la vie terrestre.",
+        "Identifier des enjeux liés à l'environnement.",
+      ],
+    },
+  ],
+};
 /* Aide condensée par étape (objectifs + rôle de l'enseignant), affichée au survol/clic du titre */
 const STEP_HELP = {
   situation: {
@@ -277,18 +396,44 @@ const app = {
   state:{ view:'home', cycle:'C1', theme:null, form:null, hasDownloaded:false },
 
   blankSeance(){
-    const steps={}; STEPS.forEach(([k])=>{ steps[k]={enseignant:'',eleve:'',consigne:'',materiel:''}; });
-    return {titre:'', objectifOp:'', steps, endedEarly:false, resumeAt:null, rappel:'', bilan:''};
+    const steps={}; STEPS.forEach(([k])=>{ steps[k]={enseignant:'',eleve:'',consigne:'',materiel:'',modalite:''}; });
+    return {titre:'', objectifOp:'', differenciation:'', steps, collapsedSteps:{}, endedEarly:false, resumeAt:null, rappel:'', bilan:''};
+  },
+  findProgrammeMatch(cycle, attenduText){
+    const comps=PROGRAMMES_DATA[cycle]||[];
+    for(const comp of comps){
+      const idx=comp.attendus.findIndex(a=>a.trim()===((attenduText||'').trim()));
+      if(idx>-1) return {comp, attenduIdx:idx};
+    }
+    return null;
   },
   blankForm(theme, cycle){
+    const match=this.findProgrammeMatch(cycle, theme.obj);
     return {
       cycle, theme: theme.t,
       teacherName:'', school:'', niveauClasse:'', nbEleves:'',
-      domaineSocle:[], domaineEnseignement:'Sciences et technologie', composante:'',
-      attendu: theme.obj, competences:'', objectif:'', vocabulaire:'', prerequis:'', materiel:'', evaluation:'',
+      domaineSocle: match ? [...match.comp.domainesSocle] : [], domaineEnseignement:DOMAINE_ENSEIGNEMENT_PAR_CYCLE[cycle]||'Sciences et technologie', composante: match ? match.comp.nom : '',
+      attendu: theme.obj, objectif:'', vocabulaire:'', prerequis:'', materiel:'', evaluation:'',
       nbSeances:3, seanceTitles:['','',''], currentSeanceIndex:0,
       seances:[this.blankSeance(),this.blankSeance(),this.blankSeance()]
     };
+  },
+  updateProgDomaine(compNom){
+    const f=this.state.form;
+    f.composante=compNom;
+    const comp=(PROGRAMMES_DATA[f.cycle]||[]).find(c=>c.nom===compNom);
+    if(comp){ f.domaineSocle=[...comp.domainesSocle]; f.attendu=''; }
+    else { f.domaineSocle=[]; f.attendu=''; }
+    this.markDirty();
+    this.render();
+  },
+  updateProgAttendu(attenduText){
+    const f=this.state.form;
+    f.attendu=attenduText;
+    const found=(PROGRAMMES_DATA[f.cycle]||[]).find(c=>c.attendus.includes(attenduText));
+    if(found){ f.composante=found.nom; f.domaineSocle=[...found.domainesSocle]; }
+    this.markDirty();
+    this.render();
   },
 
   setView(v){ this.state.view=v; window.scrollTo({top:0,behavior:'smooth'}); this.render(); },
@@ -354,6 +499,11 @@ const app = {
   goToSeanceIndex(idx){ this.state.form.currentSeanceIndex=idx; this.setView('seances'); },
   updateSeanceField(i,field,val){ this.state.form.seances[i][field]=val; this.markDirty(); },
   updateSeanceStepField(i,stepKey,subKey,val){ this.state.form.seances[i].steps[stepKey][subKey]=val; this.markDirty(); },
+  toggleStepCollapse(i, stepKey){
+    const cs=this.state.form.seances[i].collapsedSteps;
+    cs[stepKey]=!cs[stepKey];
+    this.render();
+  },
   toggleEndedEarly(i, checked){
     const s=this.state.form.seances[i];
     s.endedEarly=checked;
@@ -440,8 +590,7 @@ const app = {
     body+=this.docxPara('', {spacingAfter:100});
     body+=this.docxTable([
       [this.docxCell("Attendu de fin de cycle",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.attendu,{width:7666})],
-      [this.docxCell("Compétences travaillées",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.competences||'—',{width:7666})],
-      [this.docxCell("Objectif opérationnel",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.objectif||'—',{width:7666})],
+      [this.docxCell("Objectif général",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.objectif||'—',{width:7666})],
       [this.docxCell("Vocabulaire spécifique",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.vocabulaire||'—',{width:7666})],
       [this.docxCell("Prérequis",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.prerequis||'—',{width:7666})],
       [this.docxCell("Matériel",{bold:true,width:2800,shade:'EFEBD8'}), this.docxCell(e.materiel||'—',{width:7666})],
@@ -464,12 +613,20 @@ const app = {
       if(s.endedEarly) body+=this.docxPara('Séance interrompue — reprise prévue à l\'étape '+(s.resumeAt||'?'), {italic:true, color:'3E6E8E', spacingAfter:80});
       if(s.rappel) body+=this.docxPara('Rappel de la séance précédente : '+s.rappel, {spacingAfter:80});
 
-      const stepRows=[[this.docxCell("Étape",{bold:true,width:2000,shade:'EFEBD8'}), this.docxCell("Rôle de l'enseignant",{bold:true,width:2822,shade:'EFEBD8'}), this.docxCell("Rôle de l'élève",{bold:true,width:2822,shade:'EFEBD8'}), this.docxCell("Consignes données",{bold:true,width:2822,shade:'EFEBD8'})]];
-      STEPS.forEach(([key,label])=>{
-        const st=s.steps[key]||{};
-        stepRows.push([this.docxCell(label,{bold:true,width:2000}), this.docxCell(st.enseignant||'—',{width:2822}), this.docxCell(st.eleve||'—',{width:2822}), this.docxCell(st.consigne||'—',{width:2822})]);
-      });
-      body+=this.docxTable(stepRows);
+      const visibleSteps = (s.endedEarly && s.resumeAt) ? STEPS.filter((step,idx)=>idx+1 < s.resumeAt) : STEPS;
+      const cols=this.activeStepColumns(s, visibleSteps);
+      if(cols.length){
+        const colWidth=Math.floor(8466/cols.length);
+        const stepRows=[[this.docxCell("Étape",{bold:true,width:2000,shade:'EFEBD8'})].concat(cols.map(c=>this.docxCell(c.label,{bold:true,width:colWidth,shade:'EFEBD8'})))];
+        visibleSteps.forEach(([key,label])=>{
+          const st=s.steps[key]||{};
+          stepRows.push([this.docxCell(label,{bold:true,width:2000})].concat(cols.map(c=>this.docxCell(st[c.key]||'—',{width:colWidth}))));
+        });
+        body+=this.docxTable(stepRows);
+      } else {
+        body+=this.docxPara('Aucune étape renseignée pour cette séance.', {italics:true, color:'5C7A80', spacingAfter:80});
+      }
+      if(s.differenciation) body+=this.docxPara('🎛️ Différenciation : '+s.differenciation, {spacingAfter:80});
       if(s.bilan) body+=this.docxPara('Bilan de la séance / Trace écrite : '+s.bilan, {spacingAfter:80});
       body+=this.docxPara('', {spacingAfter:200});
     });
@@ -575,6 +732,16 @@ const app = {
     alert("Le texte de l'email a été copié. Ouvrez votre messagerie, créez un nouveau message vers "+CONSEILLER_EMAIL+", et collez (Ctrl+V) ce texte.");
   },
 
+  activeStepColumns(s, stepsSubset){
+    const list = stepsSubset || STEPS;
+    const cols=[
+      {key:'modalite', label:'Modalité'},
+      {key:'enseignant', label:"Rôle de l'enseignant"},
+      {key:'eleve', label:"Rôle de l'élève"},
+      {key:'consigne', label:'Consignes données'},
+    ];
+    return cols.filter(c => list.some(([key])=>{ const st=s.steps[key]||{}; return (st[c.key]||'').trim(); }));
+  },
   entryDetailHTML(e){
     let html=`<div class="chapeau">
       <h2 style="margin-bottom:2px;">${this.esc(e.theme)}</h2>
@@ -587,8 +754,7 @@ const app = {
       </table>
       <table>
         <tr><th>Attendu de fin de cycle</th><td>${this.esc(e.attendu)}</td></tr>
-        <tr><th>Compétences travaillées</th><td>${this.esc(e.competences)||'—'}</td></tr>
-        <tr><th>Objectif opérationnel</th><td>${this.esc(e.objectif)||'—'}</td></tr>
+        <tr><th>Objectif général</th><td>${this.esc(e.objectif)||'—'}</td></tr>
         <tr><th>Vocabulaire spécifique</th><td>${this.esc(e.vocabulaire)||'—'}</td></tr>
         <tr><th>Prérequis</th><td>${this.esc(e.prerequis)||'—'}</td></tr>
         <tr><th>Matériel</th><td>${this.esc(e.materiel)||'—'}</td></tr>
@@ -603,16 +769,20 @@ const app = {
     }
     (e.seances||[]).forEach((s,i)=>{
       const materielList=[...new Set(STEPS.map(([key])=>(s.steps[key]||{}).materiel).filter(m=>m && m.trim()).map(m=>m.trim()))];
+      const visibleSteps = (s.endedEarly && s.resumeAt) ? STEPS.filter((step,idx)=>idx+1 < s.resumeAt) : STEPS;
+      const cols=this.activeStepColumns(s, visibleSteps);
+      const stepsTable = cols.length ? `<table>
+          <tr><th>Étape</th>${cols.map(c=>`<th>${c.label}</th>`).join('')}</tr>
+          ${visibleSteps.map(([key,label])=>{ const st=s.steps[key]||{}; return `<tr><td><strong>${label}</strong></td>${cols.map(c=>`<td>${this.esc(st[c.key])||'—'}</td>`).join('')}</tr>`; }).join('')}
+        </table>` : `<p style="font-size:12.5px;color:var(--ink-soft);font-style:italic;">Aucune étape renseignée pour cette séance.</p>`;
       html+=`<div class="seance">
         <h3>Séance ${i+1} — ${this.esc(s.titre)||'(sans titre)'}</h3>
         <p style="font-size:13.5px;"><strong>🎯 Objectif opérationnel :</strong> ${this.esc(s.objectifOp)||'—'}</p>
         ${materielList.length?`<div style="background:#F5F1E4;border-radius:8px;padding:9px 13px;margin-bottom:10px;font-size:12.5px;"><strong>🧰 Matériel nécessaire pour cette séance :</strong> ${this.esc(materielList.join(', '))}</div>`:''}
-        ${s.endedEarly?`<p style="font-size:12.5px;color:var(--sky);"><em>Séance interrompue — reprise prévue à l'étape ${s.resumeAt||'?'}</em></p>`:''}
+        ${s.endedEarly?`<p style="font-size:12.5px;color:var(--sky);"><em>Séance interrompue — reprise prévue à l'étape ${s.resumeAt||'?'}. Les étapes suivantes ne sont pas encore abordées.</em></p>`:''}
         ${s.rappel?`<p style="font-size:12.5px;"><strong>Rappel de la séance précédente :</strong> ${this.esc(s.rappel)}</p>`:''}
-        <table>
-          <tr><th>Étape</th><th>Rôle de l'enseignant</th><th>Rôle de l'élève</th><th>Consignes données</th></tr>
-          ${STEPS.map(([key,label])=>{ const st=s.steps[key]||{}; return `<tr><td><strong>${label}</strong></td><td>${this.esc(st.enseignant)||'—'}</td><td>${this.esc(st.eleve)||'—'}</td><td>${this.esc(st.consigne)||'—'}</td></tr>`; }).join('')}
-        </table>
+        ${stepsTable}
+        ${s.differenciation?`<p style="font-size:13px;"><strong>🎛️ Différenciation :</strong> ${this.esc(s.differenciation)}</p>`:''}
         ${s.bilan?`<p style="font-size:13px;"><strong>Bilan de la séance / Trace écrite :</strong> ${this.esc(s.bilan)}</p>`:''}
       </div>`;
     });
@@ -649,6 +819,10 @@ const app = {
     else if(s.view==='review') html+=this.renderReview();
     el.innerHTML=html;
     this.attachHandlers();
+    el.querySelectorAll('textarea, input[type=text]').forEach(node=>{
+      node.setAttribute('spellcheck','true');
+      node.setAttribute('lang','fr');
+    });
   },
 
   renderTopbar(){
@@ -692,14 +866,27 @@ const app = {
         <div class="field"><label>Niveau / Classe</label><input type="text" id="f-niveauClasse" placeholder="ex. CE2" value="${this.esc(f.niveauClasse)}"></div>
       </div>
       <div class="field"><label>Nombre d'élèves</label><input type="text" id="f-nbEleves" style="max-width:160px;" value="${this.esc(f.nbEleves)}"></div>
-      <div class="field"><label>Domaines du socle concernés</label><div class="checks">${socleChecks}</div></div>
+
+      <div class="field"><label>Domaines du socle concernés <span class="hint">Cochées automatiquement selon la composante choisie ci-dessous — modifiables</span></label><div class="checks">${socleChecks}</div></div>
       <div class="row2">
         <div class="field"><label>Domaine d'enseignement</label><input type="text" id="f-domaineEnseignement" value="${this.esc(f.domaineEnseignement)}"></div>
-        <div class="field"><label>Composante</label><input type="text" id="f-composante" placeholder="ex. Questionner le vivant" value="${this.esc(f.composante)}"></div>
+        <div class="field"><label>Composante</label>
+          <select onchange="app.updateProgDomaine(this.value)">
+            <option value="">— Choisir —</option>
+            ${(PROGRAMMES_DATA[f.cycle]||[]).map(c=>`<option value="${this.esc(c.nom)}" ${f.composante===c.nom?'selected':''}>${this.esc(c.nom)}</option>`).join('')}
+          </select>
+        </div>
       </div>
-      <div class="field"><label>Attendu de fin de cycle <span class="hint">Pré-rempli à partir de la séquence choisie — modifiable</span></label><textarea id="f-attendu">${this.esc(f.attendu)}</textarea></div>
-      <div class="field"><label>Compétences travaillées</label><textarea id="f-competences" placeholder="ex. Pratiquer des démarches scientifiques et technologiques...">${this.esc(f.competences)}</textarea></div>
-      <div class="field"><label>Objectif opérationnel de la séquence</label><textarea id="f-objectif" placeholder="Ce que l'élève doit savoir faire à l'issue de la séquence, observable et mesurable">${this.esc(f.objectif)}</textarea></div>
+      <div class="field"><label>Attendu de fin de cycle <span class="hint">Si une composante est choisie ci-dessus, la liste est filtrée ; sinon, tous les attendus du cycle sont proposés</span></label>
+        <select onchange="app.updateProgAttendu(this.value)">
+          <option value="">— Choisir —</option>
+          ${f.composante
+            ? ((PROGRAMMES_DATA[f.cycle]||[]).find(c=>c.nom===f.composante)?.attendus||[]).map(a=>`<option value="${this.esc(a)}" ${f.attendu===a?'selected':''}>${this.esc(a)}</option>`).join('')
+            : (PROGRAMMES_DATA[f.cycle]||[]).map(c=>`<optgroup label="${this.esc(c.nom)}">${c.attendus.map(a=>`<option value="${this.esc(a)}" ${f.attendu===a?'selected':''}>${this.esc(a)}</option>`).join('')}</optgroup>`).join('')
+          }
+        </select>
+      </div>
+      <div class="field"><label>Objectif général de la séquence</label><textarea id="f-objectif" placeholder="La visée générale de la séquence, dont chaque séance décline un objectif opérationnel précis">${this.esc(f.objectif)}</textarea></div>
       <div class="row2">
         <div class="field"><label>Vocabulaire spécifique</label><textarea id="f-vocabulaire">${this.esc(f.vocabulaire)}</textarea></div>
         <div class="field"><label>Prérequis</label><textarea id="f-prerequis">${this.esc(f.prerequis)}</textarea></div>
@@ -733,6 +920,7 @@ const app = {
     const stepsHtml=STEPS.map(([key,label],idx)=>{
       const muted = idx+1 < resumeStart;
       const st=s.steps[key];
+      const collapsed = (s.collapsedSteps[key] !== undefined) ? s.collapsedSteps[key] : muted;
       const help=STEP_HELP[key];
       const helpBox = help ? `
         <div class="help-pop">
@@ -741,20 +929,42 @@ const app = {
           <strong>Rôle de l'enseignant</strong>
           <ul>${help.role.map(o=>`<li>${this.esc(o)}</li>`).join('')}</ul>
         </div>` : '';
-      return `<div class="step-row ${muted?'muted':''}">
-        <div class="step-row-head">
-          <span class="help-trigger" tabindex="0" onclick="this.classList.toggle('show')">${label}${muted?' <span class="tag">déjà vue en séance précédente</span>':''} <span class="help-icon">ⓘ</span>${helpBox}</span>
-        </div>
+      const body = collapsed ? '' : `
         <div class="row3">
           <div class="field"><label>Rôle de l'enseignant</label><textarea oninput="app.updateSeanceStepField(${i},'${key}','enseignant',this.value)">${this.esc(st.enseignant)}</textarea></div>
           <div class="field"><label>Rôle de l'élève</label><textarea oninput="app.updateSeanceStepField(${i},'${key}','eleve',this.value)">${this.esc(st.eleve)}</textarea></div>
           <div class="field"><label>Consignes données</label><textarea oninput="app.updateSeanceStepField(${i},'${key}','consigne',this.value)">${this.esc(st.consigne)}</textarea></div>
         </div>
-        <div class="field materiel-line"><label>🧰 Matériel nécessaire</label><input type="text" value="${this.esc(st.materiel)}" oninput="app.updateSeanceStepField(${i},'${key}','materiel',this.value)" placeholder="ex. loupes, gobelets, graines, chronomètre..."></div>
+        <div class="field materiel-line"><label>🧰 Matériel nécessaire</label><input type="text" value="${this.esc(st.materiel)}" oninput="app.updateSeanceStepField(${i},'${key}','materiel',this.value)" placeholder="ex. loupes, gobelets, graines, chronomètre..."></div>`;
+      return `<div class="step-row ${muted?'muted':''}">
+        <div class="step-row-head">
+          <button type="button" class="collapse-toggle" onclick="app.toggleStepCollapse(${i},'${key}')" title="${collapsed?'Déplier':'Replier'}">${collapsed?'▸':'▾'}</button>
+          <span class="help-trigger" tabindex="0" onclick="this.classList.toggle('show')">${label}${muted?' <span class="tag">déjà vue en séance précédente</span>':''} <span class="help-icon">ⓘ</span>${helpBox}</span>
+          <select class="modalite-select" onchange="app.updateSeanceStepField(${i},'${key}','modalite',this.value)">
+            <option value="">Modalité...</option>
+            ${MODALITES.map(m=>`<option value="${m}" ${st.modalite===m?'selected':''}>${m}</option>`).join('')}
+          </select>
+        </div>
+        ${body}
       </div>`;
     }).join('');
+    const endSessionBox = `
+      <div class="floating-endsession">
+        <div class="fe-icon">⏸</div>
+        <span class="fe-eyebrow">Fin de séance</span>
+        <label class="fe-check"><input type="checkbox" ${s.endedEarly?'checked':''} onchange="app.toggleEndedEarly(${i}, this.checked)"> Je m'arrête avant la fin des 7 étapes</label>
+        ${s.endedEarly?`
+        <div class="fe-resume">
+          <label>La séance suivante commencera à :</label>
+          <select onchange="app.updateSeanceField(${i},'resumeAt', parseInt(this.value)); app.render();">
+            ${STEPS.slice(1).map(([k,l],idx2)=>{ const num=idx2+2; return `<option value="${num}" ${s.resumeAt===num?'selected':''}>${l}</option>`; }).join('')}
+          </select>
+          <button type="button" class="fe-badge" onclick="app.finishSeance(${i})" title="Aller directement à la séance suivante">▸ Séance ${i+2<=f.seances.length?i+2:'suivante'} : démarre à l'étape ${s.resumeAt||'?'}<br>(cliquer pour y aller)</button>
+        </div>` : ''}
+      </div>`;
     return `
     <div class="panel">
+      ${endSessionBox}
       <div class="seance-nav"><div class="dots">${dots}</div><div class="seance-count">Séance ${i+1} / ${f.seances.length}</div></div>
       <div class="field"><label>Titre de la séance</label><input type="text" id="seance-titre-${i}" value="${this.esc(s.titre)}"></div>
       <div class="objectif-bar">
@@ -768,12 +978,9 @@ const app = {
         <textarea oninput="app.updateSeanceField(${i},'bilan',this.value)">${this.esc(s.bilan)}</textarea>
       </div>
       <div class="field">
-        <label class="check-pill" style="width:fit-content;"><input type="checkbox" ${s.endedEarly?'checked':''} onchange="app.toggleEndedEarly(${i}, this.checked)"> Cette séance s'arrête avant la fin des 7 étapes</label>
+        <label>🎛️ Différenciation <span class="hint">Adaptations prévues pour certains élèves (étayage, tâche allégée, défi supplémentaire...)</span></label>
+        <textarea oninput="app.updateSeanceField(${i},'differenciation',this.value)">${this.esc(s.differenciation)}</textarea>
       </div>
-      ${s.endedEarly?`<div class="field" style="max-width:340px;"><label>Reprendre à l'étape :</label>
-        <select onchange="app.updateSeanceField(${i},'resumeAt', parseInt(this.value))">
-          ${STEPS.slice(1).map(([k,l],idx2)=>{ const num=idx2+2; return `<option value="${num}" ${s.resumeAt===num?'selected':''}>${l}</option>`; }).join('')}
-        </select></div>`:''}
       <div class="btn-row">
         <button class="btn btn-ghost" onclick="app.backFromSeances()">← ${i===0?'Modifier la fiche séquence':'Séance précédente'}</button>
         <button class="btn btn-primary" onclick="app.finishSeance(${i})">${i<f.seances.length-1?'Terminer cette séance et passer à la suivante →':'Terminer cette séance et voir le récapitulatif →'}</button>
@@ -820,8 +1027,8 @@ const app = {
     if(f){
       const bind=(id,field)=>{ const el=document.getElementById(id); if(el) el.oninput=()=>this.updateForm(field, el.value); };
       bind('f-teacherName','teacherName'); bind('f-school','school'); bind('f-niveauClasse','niveauClasse');
-      bind('f-nbEleves','nbEleves'); bind('f-domaineEnseignement','domaineEnseignement'); bind('f-composante','composante');
-      bind('f-attendu','attendu'); bind('f-competences','competences'); bind('f-objectif','objectif');
+      bind('f-nbEleves','nbEleves'); bind('f-domaineEnseignement','domaineEnseignement');
+      bind('f-objectif','objectif');
       bind('f-vocabulaire','vocabulaire'); bind('f-prerequis','prerequis'); bind('f-materiel','materiel'); bind('f-evaluation','evaluation');
       const i=f.currentSeanceIndex||0;
       const titreEl=document.getElementById('seance-titre-'+i);
